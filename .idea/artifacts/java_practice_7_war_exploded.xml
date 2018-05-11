@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="java-practice-7:war exploded">
-    <output-path>$PROJECT_DIR$/target/java-practice-6</output-path>
+    <output-path>$PROJECT_DIR$/target/java-practice-7</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -13,7 +13,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/java-practice-6/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/java-practice-7/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="java-practice-7/web/Web" />
     </root>

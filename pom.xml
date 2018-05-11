@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>java-practice-6 Maven Webapp</name>
+    <name>java-practice-7 Maven Webapp</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,7 +36,7 @@
     </dependencies>
 
     <build>
-        <finalName>java-practice-6</finalName>
+        <finalName>java-practice-7</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
