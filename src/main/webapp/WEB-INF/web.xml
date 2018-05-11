@@ -16,6 +16,11 @@
         <servlet-class>com.netcracker.adlitsov.servlets.RegistratorServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>PassChangerServlet</servlet-name>
+        <servlet-class>com.netcracker.adlitsov.servlets.PassChangerServlet</servlet-class>
+    </servlet>
+
     <!-- servlet mappings-->
     <servlet-mapping>
         <servlet-name>ValidatorServlet</servlet-name>
@@ -25,6 +30,11 @@
     <servlet-mapping>
         <servlet-name>RegistratorServlet</servlet-name>
         <url-pattern>/RegistratorServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>PassChangerServlet</servlet-name>
+        <url-pattern>/PassChangerServlet</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

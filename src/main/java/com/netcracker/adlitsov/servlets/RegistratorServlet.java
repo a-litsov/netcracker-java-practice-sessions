@@ -16,12 +16,12 @@ public class RegistratorServlet extends HttpServlet {
 
         UsersInfoStorage users = UsersInfoStorage.getInstance();
 
-        if (!users.isUserExist(login)) {
+        if (!"".equals(login) && !users.isUserExist(login)) {
             users.addUser(login, password);
             resp.getWriter().append("Hello ").append(login)
-                            .append(", you registered with password:").append(password);
+                            .append(", you registered with password: ").append(password);
         } else {
-            resp.getWriter().append("We sorry but user with similar login already exists.");
+            resp.getWriter().append("We sorry but user with similar login already exists or login is incorrect.");
         }
     }
 }

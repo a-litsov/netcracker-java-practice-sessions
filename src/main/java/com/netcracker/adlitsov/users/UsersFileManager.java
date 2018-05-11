@@ -30,21 +30,21 @@ public class UsersFileManager {
         return usersFile;
     }
 
-    public void saveUsersInfo(Map<String, String> users) {
+    public void saveUsersInfo(Map<String, UserInfo> users) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         try {
-            File booksFile = createUsersFile();
-            mapper.writeValue(booksFile, users);
+            File usersFile = createUsersFile();
+            mapper.writeValue(usersFile, users);
         } catch (IOException e) {
             System.err.println("Cannot save users to file!");
             e.printStackTrace();
         }
     }
 
-    public Map<String, String> loadUsers() {
-        Map<String, String> users = new HashMap<>();
+    public Map<String, UserInfo> loadUsers() {
+        Map<String, UserInfo> users = new HashMap<>();
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -56,7 +56,7 @@ public class UsersFileManager {
         }
 
         try {
-            users = mapper.readValue(usersFile, new TypeReference<Map<String, String>>() {
+            users = mapper.readValue(usersFile, new TypeReference<Map<String, UserInfo>>() {
             });
         } catch (IOException e) {
             System.err.println("Cannot load users!");
