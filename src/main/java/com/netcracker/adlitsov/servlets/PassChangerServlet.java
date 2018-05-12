@@ -18,6 +18,9 @@ public class PassChangerServlet extends HttpServlet {
         if (users.isUserExist(login) && users.verify(login, prevPassword)) {
             users.changeUserPass(login, password);
             users.unbanUser(login);
+            HttpSession session = req.getSession();
+            String incorrectLogin = ValidatorServlet.INCORRECT_PREFIX + login;
+            session.removeAttribute(incorrectLogin);
             resp.getWriter().append(login).append(", your new password is: ").append(password);
         } else {
             resp.getWriter().append("We sorry but user with that login doesn't exist ")

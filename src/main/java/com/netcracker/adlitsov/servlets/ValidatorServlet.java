@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ValidatorServlet extends HttpServlet {
 
-    private static final String INCORRECT_PREFIX = "Incorrect login as: ";
+    public static final String INCORRECT_PREFIX = "Incorrect login as: ";
     private static final int TRIES_UNTIL_BAN = 5;
     private static final boolean USE_COOKIES = true;
 
@@ -28,8 +28,10 @@ public class ValidatorServlet extends HttpServlet {
             String storedPass = userData.getValue();
             if (storedLogin != null && storedPass != null) {
                 if (!users.isUserBanned(storedLogin)) {
-                    if (users.isUserExist(storedLogin) && users.verify(storedLogin, storedPass)) {
+                    if (users.verify(storedLogin, storedPass)) {
                         resp.getWriter().append("Hello ").append(storedLogin).append(", you're logged via remembered data.");
+                    } else {
+                        incorrectLogin(req, resp, login, password, users);
                     }
                 } else {
                     resp.sendRedirect("change-pass.html");
@@ -50,23 +52,28 @@ public class ValidatorServlet extends HttpServlet {
                 }
                 resp.getWriter().append("Hello ").append(login).append(", you entered correct password.");
             } else {
-                resp.getWriter().append("Entered password is incorrect. Try again (after ")
-                    .append(TRIES_UNTIL_BAN + " incorrect tries account will be locked).");
-
-                HttpSession session = req.getSession(true);
-                Integer count = (Integer) session.getAttribute(INCORRECT_PREFIX + login);
-                if (count == null) {
-                    count = 1;
-                } else if (++count >= TRIES_UNTIL_BAN) {
-                    users.banUser(login);
-                    session.removeAttribute(INCORRECT_PREFIX + login);
-                }
-                session.setAttribute(INCORRECT_PREFIX + login, count);
-                resp.getWriter().append("Current tries count: ").append(count.toString());
+                incorrectLogin(req, resp, login, password, users);
             }
         } else {
             resp.sendRedirect("register.html");
         }
+    }
+
+    private void incorrectLogin(HttpServletRequest req, HttpServletResponse resp, String login, String password,
+                                UsersInfoStorage users) throws IOException {
+        resp.getWriter().append("Entered password is incorrect. Try again (after ")
+            .append(TRIES_UNTIL_BAN + " incorrect tries account will be locked).");
+
+        HttpSession session = req.getSession(true);
+        Integer count = (Integer) session.getAttribute(INCORRECT_PREFIX + login);
+        if (count == null) {
+            count = 1;
+        } else if (++count >= TRIES_UNTIL_BAN) {
+            users.banUser(login);
+            session.removeAttribute(INCORRECT_PREFIX + login);
+        }
+        session.setAttribute(INCORRECT_PREFIX + login, count);
+        resp.getWriter().append("Current tries count: ").append(count.toString());
     }
 
     private Pair<String, String> loadUserInfo(HttpServletRequest req) {
@@ -76,7 +83,7 @@ public class ValidatorServlet extends HttpServlet {
                 return new Pair<>(null, null);
             }
             String login = null, pass = null;
-            for (Cookie cookie: cookies) {
+            for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("login")) {
                     login = cookie.getValue();
                 }

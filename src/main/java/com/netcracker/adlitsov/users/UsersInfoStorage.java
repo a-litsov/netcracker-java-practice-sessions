@@ -24,15 +24,25 @@ public class UsersInfoStorage {
     }
 
     public synchronized void changeUserPass(String userName, String newPass) {
+        if (!isUserExist(userName)) {
+            return;
+        }
         users.get(userName).setPassword(newPass);
     }
 
     public synchronized void deleteUser(String userName) {
+        if (!isUserExist(userName)) {
+            return;
+        }
+
         users.remove(userName);
         fileManager.saveUsersInfo(users);
     }
 
     public boolean verify(String userName, String userPassword) {
+        if (!isUserExist(userName)) {
+            return false;
+        }
         return Objects.equals(users.get(userName).getPassword(), userPassword);
     }
 
@@ -57,6 +67,9 @@ public class UsersInfoStorage {
     }
 
     public boolean isUserBanned(String userName) {
+        if(!isUserExist(userName)) {
+            return false;
+        }
         return users.get(userName).isBanned();
     }
 }
