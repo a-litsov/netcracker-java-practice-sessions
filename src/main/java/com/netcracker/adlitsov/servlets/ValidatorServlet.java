@@ -31,7 +31,7 @@ public class ValidatorServlet extends HttpServlet {
                     if (users.verify(storedLogin, storedPass)) {
                         resp.getWriter().append("Hello ").append(storedLogin).append(", you're logged via remembered data.");
                     } else {
-                        incorrectLogin(req, resp, login, password, users);
+                        incorrectLogin(req, resp, storedLogin, storedPass, users);
                     }
                 } else {
                     resp.sendRedirect("change-pass.html");
